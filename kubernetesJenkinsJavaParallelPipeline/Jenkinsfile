@@ -1,0 +1,40 @@
+pipeline {
+    agent none
+
+    stages {
+
+        stage('Run Tests') {
+
+            parallel {
+
+                stage('Job1') {
+                    agent {
+                        label "linux"
+                    }
+                    steps {
+                        sh "echo hello linux!!!"
+                    }
+                    post {
+                        always {
+                            sh "echo post linux!!!"
+                        }
+                    }
+                }
+
+                stage('Job2') {
+                    agent {
+                        label "slave01"
+                    }
+                    steps {
+                        sh "echo slave01!!!"
+                    }
+                    post {
+                        always {
+                          sh "echo post slave01!!!"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
